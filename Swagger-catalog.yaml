@@ -1,0 +1,165 @@
+openapi: 3.0.0
+info:
+  title: Catalog API
+  version: 1.0.0
+paths:
+  /articles:
+    get:
+      summary: Récupère tous les articles
+      tags:
+        - Articles
+      description: Récupère la liste de tous les articles disponibles.
+      responses:
+        "200":
+          description: Liste des articles récupérée avec succès.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Article"
+              examples:
+                example-1:
+                  value:
+                    - id: 1
+                      nom: "Article 1"
+                      description: "Description de l'article 1"
+                      prix: 19.99
+                      couleur: "Rouge"
+                    - id: 2
+                      nom: "Article 2"
+                      description: "Description de l'article 2"
+                      prix: 29.99
+                      couleur: "Bleu"
+    post:
+      summary: Crée un nouvel article
+      tags:
+        - Articles
+      description: Crée un nouvel article avec les informations fournies.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Article"
+            examples:
+              example-1:
+                value:
+                  nom: "Nouvel article"
+                  description: "Description du nouvel article"
+                  prix: 9.99
+                  couleur: "Vert"
+      responses:
+        "201":
+          description: Article créé avec succès.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Article"
+              examples:
+                example-1:
+                  value:
+                    id: 3
+                    nom: "Nouvel article"
+                    description: "Description du nouvel article"
+                    prix: 9.99
+                    couleur: "Vert"
+  /articles/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: ID de l'article
+        schema:
+          type: string
+    get:
+      summary: Récupère un article par ID
+      tags:
+        - Articles
+      description: Récupère un article spécifié par son ID.
+      responses:
+        "200":
+          description: Article récupéré avec succès.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Article"
+              examples:
+                example-1:
+                  value:
+                    id: 1
+                    nom: "Article 1"
+                    description: "Description de l'article 1"
+                    prix: 19.99
+                    couleur: "Rouge"
+    put:
+      summary: Met à jour un article par ID
+      tags:
+        - Articles
+      description: Met à jour un article spécifié par son ID avec les nouvelles informations fournies.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Article"
+            examples:
+              example-1:
+                value:
+                  nom: "Article mis à jour"
+                  description: "Description mise à jour"
+                  prix: 24.99
+                  couleur: "Bleu"
+      responses:
+        "200":
+          description: Article mis à jour avec succès.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Article"
+              examples:
+                example-1:
+                  value:
+                    id: 1
+                    nom: "Article mis à jour"
+                    description: "Description mise à jour"
+                    prix: 24.99
+                    couleur: "Bleu"
+    delete:
+      summary: Supprime un article par ID
+      tags:
+        - Articles
+      description: Supprime un article spécifié par son ID.
+      responses:
+        "200":
+          description: Article supprimé avec succès.
+components:
+  schemas:
+    Article:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID de l'article.
+          example: "1"
+        nom:
+          type: string
+          description: Nom de l'article.
+          example: "Article 1"
+        description:
+          type: string
+          description: Description de l'article.
+          example: "Ceci est l'article 1"
+        prix:
+          type: number
+          description: Prix de l'article.
+          example: 19.99
+        couleur:
+          type: string
+          description: Couleur de l'article.
+          example: "Rouge"
+      required:
+        - nom
+        - description
+        - prix
+        - couleur
